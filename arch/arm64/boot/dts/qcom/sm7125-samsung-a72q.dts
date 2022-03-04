@@ -213,6 +213,11 @@
 	firmware-name = "qcom/sm7125/a72q/ipa_fws.mdt";
 };
 
+&remoteproc_mpss {
+	status = "okay";
+	firmware-name = "qcom/sm7125/a72q/modem.mdt";
+};
+
 &sdhc_2 {
 	status = "okay";
 
