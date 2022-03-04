@@ -108,6 +108,11 @@
 			regulator-max-microvolt = <928000>;
 		};
 
+		vreg_l9a: ldo9 {
+			regulator-min-microvolt = <640000>;
+			regulator-max-microvolt = <640000>;
+		};
+
 		vreg_l11a: ldo11 {
 			regulator-min-microvolt = <1696000>;
 			regulator-max-microvolt = <1904000>;
@@ -133,6 +138,16 @@
 		compatible = "qcom,pm6150l-rpmh-regulators";
 		qcom,pmic-id = "c";
 
+		vreg_l1c: ldo1 {
+			regulator-min-microvolt = <1616000>;
+			regulator-max-microvolt = <1984000>;
+		};
+
+		vreg_l2c: ldo2 {
+			regulator-min-microvolt = <1168000>;
+			regulator-max-microvolt = <1304000>;
+		};
+
 		vreg_l3c: ldo3 {
 			regulator-min-microvolt = <1144000>;
 			regulator-max-microvolt = <1304000>;
@@ -146,6 +161,16 @@
 		vreg_l9c: ldo9 {
 			regulator-min-microvolt = <2960000>;
 			regulator-max-microvolt = <2960000>;
+		};
+
+		vreg_l10c: ldo10 {
+			regulator-min-microvolt = <3000000>;
+			regulator-max-microvolt = <3312000>;
+		};
+
+		vreg_l11c: ldo11 {
+			regulator-min-microvolt = <3000000>;
+			regulator-max-microvolt = <3312000>;
 		};
 	};
 };
@@ -211,6 +236,16 @@
 
 	memory-region = <&ipa_fw_mem>;
 	firmware-name = "qcom/sm7125/a72q/ipa_fws.mdt";
+};
+
+&wifi {
+	status = "okay";
+
+	vdd-0.8-cx-mx-supply = <&vreg_l9a>;
+	vdd-1.8-xo-supply = <&vreg_l1c>;
+	vdd-1.3-rfa-supply = <&vreg_l2c>;
+	vdd-3.3-ch0-supply = <&vreg_l10c>;
+	vdd-3.3-ch1-supply = <&vreg_l11c>;
 };
 
 &remoteproc_mpss {
