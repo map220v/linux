@@ -8,14 +8,45 @@
 #include "sc7180.dtsi"
 
 /* SM7125 uses Kryo 465 instead of Kryo 468 */
-&CPU0 { compatible = "qcom,kryo465"; };
-&CPU1 { compatible = "qcom,kryo465"; };
-&CPU2 { compatible = "qcom,kryo465"; };
-&CPU3 { compatible = "qcom,kryo465"; };
-&CPU4 { compatible = "qcom,kryo465"; };
-&CPU5 { compatible = "qcom,kryo465"; };
-&CPU6 { compatible = "qcom,kryo465"; };
-&CPU7 { compatible = "qcom,kryo465"; };
+&CPU0 {
+	compatible = "qcom,kryo465";
+	/delete-property/ operating-points-v2;
+};
+
+&CPU1 {
+	compatible = "qcom,kryo465";
+	/delete-property/ operating-points-v2;
+};
+
+&CPU2 {
+	compatible = "qcom,kryo465";
+	/delete-property/ operating-points-v2;
+};
+
+&CPU3 {
+	compatible = "qcom,kryo465";
+	/delete-property/ operating-points-v2;
+};
+
+&CPU4 {
+	compatible = "qcom,kryo465";
+	/delete-property/ operating-points-v2;
+};
+
+&CPU5 {
+	compatible = "qcom,kryo465";
+	/delete-property/ operating-points-v2;
+};
+
+&CPU6 {
+	compatible = "qcom,kryo465";
+	/delete-property/ operating-points-v2;
+};
+
+&CPU7 {
+	compatible = "qcom,kryo465";
+	/delete-property/ operating-points-v2;
+};
 
 // SC7180 doesn't have UFS yet.
 &soc {
