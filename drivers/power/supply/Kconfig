@@ -897,4 +897,14 @@ config BATTERY_UG3105
 	  device is off or suspended, the functionality of this driver is
 	  limited to reporting capacity only.
 
+config BATTERY_SM5714
+	tristate "SiliconMitus SM5714 Fuel Gauge support"
+	depends on I2C
+	help
+	  Say Y here to enable support for the Fuel-Gauge unit of the SM5714
+	  multi-function device.
+
+	  This driver can also be built as a module. If so, the module will be
+	  called sm5714-fg.
+
 endif # POWER_SUPPLY
