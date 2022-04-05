@@ -10,8 +10,6 @@
 #include <linux/power_supply.h>
 #include <linux/regmap.h>
 
-#define SM5714_I2C_SADR_FG      (0xE2 >> 1)
-
 #define SM5714_FG_REG_DEVICE_ID           0x00
 #define SM5714_FG_REG_CTRL				  0x01
 #define SM5714_FG_REG_INTFG               0x02
@@ -118,12 +116,10 @@ static int sm5714_fg_probe (struct i2c_client* i2c) {
     struct power_supply* psy;
     struct power_supply_config fg_cfg = { };
 
-    struct i2c_client *fuelgauge = i2c_new_dummy_device(i2c->adapter, SM5714_I2C_SADR_FG);;
-
 	drv = devm_kzalloc(&i2c->dev, sizeof(*drv), GFP_KERNEL);
 	if (!drv)
 		return -ENOMEM;
-    drv->i2c = fuelgauge;
+    drv->i2c = i2c;
 
     fg_cfg.drv_data = drv;
 	fg_cfg.of_node = i2c->dev.of_node;
