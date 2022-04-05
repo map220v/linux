@@ -347,6 +347,15 @@
 	};
 };
 
+&i2c4 {
+	status = "okay";
+
+	sm5714@49 {
+		compatible = "siliconmitus,sm5714-fg";
+		reg = <0x49>;
+	};
+};
+
 &sdhc_2 {
 	status = "okay";
 
