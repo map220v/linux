@@ -350,9 +350,9 @@
 &i2c4 {
 	status = "okay";
 
-	sm5714@49 {
+	sm5714-fg@71 {
 		compatible = "siliconmitus,sm5714-fg";
-		reg = <0x49>;
+		reg = <0x71>;
 	};
 };
 
