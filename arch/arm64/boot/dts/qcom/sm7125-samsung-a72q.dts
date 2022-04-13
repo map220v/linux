@@ -311,6 +311,26 @@
 	vdd-3.3-ch1-supply = <&vreg_l11c>;
 };
 
+&qup_i2c4_default {
+	pinconf {
+		pins = "gpio115", "gpio116";
+		drive-strength = <2>;
+
+		/* Has external pullup */
+		bias-disable;
+	};
+};
+
+&qup_i2c7_default {
+	pinconf {
+		pins = "gpio6", "gpio7";
+		drive-strength = <2>;
+
+		/* Has external pullup */
+		bias-disable;
+	};
+};
+
 &remoteproc_mpss {
 	status = "okay";
 	firmware-name = "qcom/sm7125/a72q/modem.mdt";
@@ -347,6 +367,10 @@
 	};
 };
 
+&gpi_dma0 {
+	status = "okay";
+};
+
 &i2c4 {
 	status = "okay";
 
@@ -354,6 +378,10 @@
 		compatible = "siliconmitus,sm5714-fg";
 		reg = <0x71>;
 	};
+};
+
+&gpi_dma1 {
+	status = "okay";
 };
 
 &sdhc_2 {
