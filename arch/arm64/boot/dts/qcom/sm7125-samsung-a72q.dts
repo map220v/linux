@@ -241,6 +241,19 @@
 		};
 	};
 
+	tsp_int: tsp_int {
+		pinmux {
+			pins = "gpio9";
+			function = "gpio";
+		};
+		
+		pinconfig {
+			pins = "gpio9";
+			input-enable;
+			bias-disable;
+		};
+	};
+
 	sdc2_on: sdc2-on {
 		pinconf-clk {
 			pins = "sdc2_clk";
@@ -382,6 +395,24 @@
 
 &gpi_dma1 {
 	status = "okay";
+};
+
+&i2c7 {
+	status = "okay";
+	clock-frequency = <400000>;
+
+	tsp_stm: touchscreen@49 {
+		compatible = "st,stmfts_fts5cu56a";
+		reg = <0x49>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&tsp_int>;
+
+		interrupt-parent = <&tlmm>;
+		interrupts = <9 0x2008>;
+
+		avdd-supply = <&vreg_l7c>;
+	};
 };
 
 &sdhc_2 {
