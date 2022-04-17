@@ -48,6 +48,11 @@
 			no-map;
 		};
 
+		gpu_mem: memory@93b15000 {
+			reg = <0 0x93b15000 0 0x2000>;
+			no-map;
+		};
+
 		ramoops@B4600000 {
 			compatible = "ramoops";
 			reg = <0x0 0xb4600000 0x0 0x100000>;
@@ -206,6 +211,10 @@
 
 &gpu {
 	status = "okay";
+
+	zap-shader {
+		memory-region = <&gpu_mem>;
+	};
 };
 
 &tlmm {

@@ -234,6 +234,69 @@
 		status = "disabled";
 	};
 };
+/delete-node/ &gpu_opp_table;
+&gpu {
+	gpu_opp_table: opp-table {
+		compatible = "operating-points-v2";
+		
+		opp-650000000 {
+			opp-hz = /bits/ 64 <750000000>;
+			opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
+			opp-peak-kBps = <7216000>;
+			opp-supported-hw = <0x08>;
+		};
+
+		opp-650000000 {
+			opp-hz = /bits/ 64 <650000000>;
+			opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
+			opp-peak-kBps = <7216000>;
+			opp-supported-hw = <0x08>;
+		};
+
+		opp-565000000 {
+			opp-hz = /bits/ 64 <565000000>;
+			opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
+			opp-peak-kBps = <5412000>;
+			opp-supported-hw = <0x08>;
+		};
+
+		opp-430000000 {
+			opp-hz = /bits/ 64 <430000000>;
+			opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
+			opp-peak-kBps = <5412000>;
+			opp-supported-hw = <0x08>;
+		};
+
+		opp-355000000 {
+			opp-hz = /bits/ 64 <355000000>;
+			opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
+			opp-peak-kBps = <3072000>;
+			opp-supported-hw = <0x08>;
+		};
+
+		opp-267000000 {
+			opp-hz = /bits/ 64 <267000000>;
+			opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
+			opp-peak-kBps = <3072000>;
+			opp-supported-hw = <0x08>;
+		};
+
+		opp-180000000 {
+			opp-hz = /bits/ 64 <180000000>;
+			opp-level = <RPMH_REGULATOR_LEVEL_MIN_SVS>;
+			opp-peak-kBps = <1804000>;
+			opp-supported-hw = <0x08>;
+		};
+	};
+};
+
+&mdp {
+	reg = <0 0x0ae01000 0 0x8f000>,
+		  <0 0x0aeac000 0 0x214>,
+		  <0 0x0aeb0000 0 0x2008>,
+		  <0 0x0aeb8000 0 0x3000>;
+	reg-names = "mdp", "regdma", "vbif", "vbif_nrt";
+};
 
 &i2c7 {
 	dmas = <&gpi_dma1 0 1 QCOM_GPI_I2C>,
