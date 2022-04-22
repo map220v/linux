@@ -907,4 +907,15 @@ config BATTERY_SM5714
 	  This driver can also be built as a module. If so, the module will be
 	  called sm5714-fg.
 
+config CHARGER_SM5714
+	tristate "SiliconMitus SM5714 Charger support"
+	depends on I2C
+	help
+	  Say Y here to enable support for the Charger unit of the SM5714
+	  multi-function device.
+
+	  This driver can also be built as a module. If so, the module will be
+	  called sm5714-charger.
+
+
 endif # POWER_SUPPLY

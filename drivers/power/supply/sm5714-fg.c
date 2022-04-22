@@ -41,21 +41,48 @@ struct sm5714_fg {
 };
 
 static enum power_supply_property sm5714_fg_props[] = {
-	POWER_SUPPLY_PROP_TEMP,
+	POWER_SUPPLY_PROP_STATUS,
+    POWER_SUPPLY_PROP_TEMP,
 	POWER_SUPPLY_PROP_CAPACITY,
 	POWER_SUPPLY_PROP_VOLTAGE_NOW,
 	POWER_SUPPLY_PROP_CURRENT_NOW,
 };
 
+static int sm5714_fg_get_status(int *status)
+{
+	union power_supply_propval val;
+	struct power_supply *psy;
+	int ret = -EINVAL;
+
+    psy = power_supply_get_by_name("sm5714_charger");
+    if (!psy)
+        return ret;
+
+    ret = power_supply_get_property(psy, POWER_SUPPLY_PROP_STATUS,
+                    &val);
+    power_supply_put(psy);
+    if (ret)
+        return ret;
+
+    *status = val.intval;
+
+	return ret;
+}
+
 static int sm5714_fg_get_property(struct power_supply *psy,
 				   enum power_supply_property psp,
 				   union power_supply_propval *val) 
 {
+    int error;
     unsigned int value;
     struct sm5714_fg *drv;
 
     drv = power_supply_get_drvdata(psy);
     switch(psp) {
+        case POWER_SUPPLY_PROP_STATUS:
+            error = sm5714_fg_get_status(&value);
+            val->intval = value;
+            break;
         case POWER_SUPPLY_PROP_TEMP:
             i2c_smbus_write_word_data(drv->i2c, SM5714_FG_REG_SRAM_RADDR, SM5714_FG_ADDR_SRAM_TEMPERATURE);
             value = i2c_smbus_read_word_data(drv->i2c, SM5714_FG_REG_SRAM_RDATA);
@@ -159,6 +186,6 @@ static struct i2c_driver sm5714_fg_driver = {
 
 module_i2c_driver(sm5714_fg_driver);
 
-MODULE_DESCRIPTION("Samsung SM5714");
-MODULE_AUTHOR("Samsung Electronics");
-MODULE_LICENSE("GPL"); 
+MODULE_DESCRIPTION("Samsung SM5714-FG");
+MODULE_AUTHOR("map220v <map220v300@gmail.com>");
+MODULE_LICENSE("GPL");
