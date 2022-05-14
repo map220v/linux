@@ -1,0 +1,523 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * SM7125 Samsung Galaxy A52 (a52q) specific device tree
+ *
+ * Copyright (c) 2021, The Linux Foundation. All rights reserved.
+ */
+
+/dts-v1/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+#include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
+#include "sm7125.dtsi"
+#include "pm6150.dtsi"
+#include "pm6150l.dtsi"
+
+/delete-node/ &rmtfs_mem;
+/delete-node/ &ipa_fw_mem;
+
+/ {
+	model = "Samsung Galaxy A52";
+	compatible = "samsung,a52q", "qcom,sm7125";
+	qcom,msm-id = <443 0x0>;
+	qcom,board-id = <0x22 0x6>;
+	
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+		
+		mpss_mem: memory@86000000 {
+			reg = <0x0 0x8b000000 0x0 0x8900000>;
+			no-map;
+		};
+
+		venus_mem: memory@8ee00000 {
+			reg = <0 0x98400000 0 0x500000>;
+			no-map;
+		};
+
+		wlan_mem: memory@93900000 {
+			reg = <0x0 0x93900000 0x0 0x200000>;
+			no-map;
+		};
+
+		ipa_fw_mem: memory@93b00000 {
+			reg = <0x0 0x93b00000 0x0 0x10000>;
+			no-map;
+		};
+
+		gpu_mem: memory@93b15000 {
+			reg = <0 0x93b15000 0 0x2000>;
+			no-map;
+		};
+
+		ramoops@B4600000 {
+			compatible = "ramoops";
+			reg = <0x0 0xb4600000 0x0 0x100000>;
+			record-size = <0x40000>;
+			console-size = <0x40000>;
+			ftrace-size = <0x40000>;
+			pmsg-size = <0x40000>;
+		};
+
+		rmtfs_mem: memory@f3701000 {
+			compatible = "qcom,rmtfs-mem";
+			reg = <0 0xf3701000 0 0x200000>;
+			no-map;
+
+			qcom,client-id = <1>;
+			qcom,vmid = <15>;
+		};
+	};
+
+	aliases {
+		bluetooth0 = &bluetooth;
+		hsuart0 = &uart3;
+		wifi0 = &wifi;
+	};
+
+	chosen {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+	};
+};
+
+&apps_rsc {
+	pm6150-rpmh-regulators {
+		compatible = "qcom,pm6150-rpmh-regulators";
+		qcom,pmic-id = "a";
+
+		vreg_l4a: ldo4 {
+			regulator-min-microvolt = <824000>;
+			regulator-max-microvolt = <928000>;
+		};
+
+		vreg_l9a: ldo9 {
+			regulator-min-microvolt = <640000>;
+			regulator-max-microvolt = <640000>;
+		};
+
+		vreg_l10a: ldo10 {
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+		};
+
+		vreg_l11a: ldo11 {
+			regulator-min-microvolt = <1696000>;
+			regulator-max-microvolt = <1904000>;
+		};
+
+		vreg_l12a: ldo12 {
+			regulator-min-microvolt = <1696000>;
+			regulator-max-microvolt = <1950000>;
+		};
+
+		vreg_l17a: ldo17 {
+			regulator-min-microvolt = <2920000>;
+			regulator-max-microvolt = <3232000>;
+		};
+
+		vreg_l19a: ldo19 {
+			regulator-min-microvolt = <2696000>;
+			regulator-max-microvolt = <2960000>;
+		};
+	};
+
+	pm6150l-rpmh-regulators {
+		compatible = "qcom,pm6150l-rpmh-regulators";
+		qcom,pmic-id = "c";
+
+		vreg_l1c: ldo1 {
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+		};
+
+		vreg_l2c: ldo2 {
+			regulator-min-microvolt = <1304000>;
+			regulator-max-microvolt = <1304000>;
+		};
+
+		vreg_l3c: ldo3 {
+			regulator-min-microvolt = <1144000>;
+			regulator-max-microvolt = <1304000>;
+		};
+
+		vreg_l6c: ldo6 {
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <2950000>;
+		};
+
+		vreg_l7c: ldo7 {
+			regulator-min-microvolt = <3000000>;
+			regulator-max-microvolt = <3000000>;
+		};
+
+		vreg_l9c: ldo9 {
+			regulator-min-microvolt = <2960000>;
+			regulator-max-microvolt = <2960000>;
+		};
+
+		vreg_l10c: ldo10 {
+			regulator-min-microvolt = <3000000>;
+			regulator-max-microvolt = <3312000>;
+		};
+
+		vreg_l11c: ldo11 {
+			regulator-min-microvolt = <3000000>;
+			regulator-max-microvolt = <3312000>;
+		};
+	};
+};
+
+&dsi0 {
+	status = "okay";
+
+	panel@0 {
+		compatible = "samsung,s6e3fc3-ams667ym01";
+		reg = <0>;
+
+		reset-gpios = <&tlmm 8 GPIO_ACTIVE_LOW>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&panel_reset_pins &panel_te_pin>;
+
+		port {
+			panel_in: endpoint {
+				remote-endpoint = <&dsi0_out>;
+			};
+		};
+	};
+};
+
+&dsi0_out {
+	remote-endpoint = <&panel_in>;
+	data-lanes = <0 1 2 3>;
+};
+
+&dsi_phy {
+	status = "okay";
+};
+
+&mdp {
+	status = "okay";
+};
+
+&mdss {
+	status = "okay";
+};
+
+&gpu {
+	status = "okay";
+
+	zap-shader {
+		memory-region = <&gpu_mem>;
+	};
+};
+
+&tlmm {
+	gpio-reserved-ranges = <59 4>;
+
+	qup_uart3_sleep: qup-uart3-sleep {
+		pinmux {
+			pins = "gpio38", "gpio39",
+			       "gpio40", "gpio41";
+			function = "gpio";
+		};
+
+		pinconf-cts {
+			/*
+			 * Configure a pull-down on CTS to match the pull of
+			 * the Bluetooth module.
+			 */
+			pins = "gpio38";
+			bias-pull-down;
+		};
+
+		pinconf-rts {
+			/*
+			 * Configure pull-down on RTS. As RTS is active low
+			 * signal, pull it low to indicate the BT SoC that it
+			 * can wakeup the system anytime from suspend state by
+			 * pulling RX low (by sending wakeup bytes).
+			 */
+			 pins = "gpio39";
+			 bias-pull-down;
+		};
+
+		pinconf-tx {
+			/*
+			 * Configure pull-up on TX when it isn't actively driven
+			 * to prevent BT SoC from receiving garbage during sleep.
+			 */
+			pins = "gpio40";
+			bias-pull-up;
+		};
+
+		pinconf-rx {
+			/*
+			 * Configure a pull-up on RX. This is needed to avoid
+			 * garbage data when the TX pin of the Bluetooth module
+			 * is floating which may cause spurious wakeups.
+			 */
+			pins = "gpio41";
+			bias-pull-up;
+		};
+	};
+
+	tsp_int: tsp_int {
+		pinmux {
+			pins = "gpio9";
+			function = "gpio";
+		};
+		
+		pinconfig {
+			pins = "gpio9";
+			input-enable;
+			bias-disable;
+		};
+	};
+
+	sdc2_on: sdc2-on {
+		pinconf-clk {
+			pins = "sdc2_clk";
+			bias-disable;
+			drive-strength = <16>;
+		};
+
+		pinconf-cmd {
+			pins = "sdc2_cmd";
+			bias-pull-up;
+			drive-strength = <10>;
+		};
+
+		pinconf-data {
+			pins = "sdc2_data";
+			bias-pull-up;
+			drive-strength = <10>;
+		};
+
+		pinconf-sd-cd {
+			pins = "gpio69";
+			bias-pull-up;
+			drive-strength = <2>;
+		};
+	};
+
+	sdc2_off: sdc2-off {
+		pinconf-clk {
+			pins = "sdc2_clk";
+			bias-disable;
+			drive-strength = <2>;
+		};
+
+		pinconf-cmd {
+			pins = "sdc2_cmd";
+			bias-pull-up;
+			drive-strength = <2>;
+		};
+
+		pinconf-data {
+			pins = "sdc2_data";
+			bias-pull-up;
+			drive-strength = <2>;
+		};
+
+		pinconf-sd-cd {
+			pins = "gpio69";
+			bias-pull-up;
+			drive-strength = <2>;
+		};
+	};
+
+	panel_reset_pins: panel-reset {
+		mux {
+			pins = "gpio8";
+			function = "gpio";
+			drive-strength = <8>;
+			bias-disable = <0>;
+		};
+	};
+
+	panel_te_pin: panel-te {
+		mux {
+			pins = "gpio10";
+			function = "mdp_vsync";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+};
+
+&ipa {
+	status = "okay";
+
+	memory-region = <&ipa_fw_mem>;
+	firmware-name = "qcom/sm7125/a52q/ipa_fws.mdt";
+};
+
+&wifi {
+	status = "okay";
+
+	vdd-0.8-cx-mx-supply = <&vreg_l9a>;
+	vdd-1.8-xo-supply = <&vreg_l1c>;
+	vdd-1.3-rfa-supply = <&vreg_l2c>;
+	vdd-3.3-ch0-supply = <&vreg_l10c>;
+	vdd-3.3-ch1-supply = <&vreg_l11c>;
+};
+
+&qup_i2c4_default {
+	pinconf {
+		pins = "gpio115", "gpio116";
+		drive-strength = <2>;
+
+		/* Has external pullup */
+		bias-disable;
+	};
+};
+
+&qup_i2c7_default {
+	pinconf {
+		pins = "gpio6", "gpio7";
+		drive-strength = <2>;
+
+		/* Has external pullup */
+		bias-disable;
+	};
+};
+
+&remoteproc_mpss {
+	status = "okay";
+	firmware-name = "qcom/sm7125/a52q/modem.mdt";
+};
+
+&qupv3_id_0 {
+	status = "okay";
+};
+
+&qupv3_id_1 {
+	status = "okay";
+};
+
+&uart3 {
+	status = "okay";
+
+	/delete-property/interrupts;
+	interrupts-extended = <&intc GIC_SPI 604 IRQ_TYPE_LEVEL_HIGH>,
+				<&tlmm 41 IRQ_TYPE_EDGE_FALLING>;
+
+	pinctrl-names = "default", "sleep";
+	pinctrl-1 = <&qup_uart3_sleep>;
+
+	bluetooth: bluetooth {
+		compatible = "qcom,wcn3990-bt";
+
+		firmware-name = "sm7125/a52q/crnv21.bin";
+
+		vddio-supply = <&vreg_l10a>;
+		vddxo-supply = <&vreg_l1c>;
+		vddrf-supply = <&vreg_l2c>;
+		vddch0-supply = <&vreg_l10c>;
+		max-speed = <3200000>;
+	};
+};
+
+&gpi_dma0 {
+	status = "okay";
+};
+
+&i2c4 {
+	status = "okay";
+
+	sm5714-fg@71 {
+		compatible = "siliconmitus,sm5714-fg";
+		reg = <0x71>;
+	};
+};
+
+&gpi_dma1 {
+	status = "okay";
+};
+
+&i2c7 {
+	status = "okay";
+	clock-frequency = <400000>;
+
+	tsp_stm: touchscreen@49 {
+		compatible = "st,stmfts_fts5cu56a";
+		reg = <0x49>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&tsp_int>;
+
+		interrupt-parent = <&tlmm>;
+		interrupts = <9 0x2008>;
+
+		avdd-supply = <&vreg_l7c>;
+	};
+};
+
+&sdhc_2 {
+	status = "okay";
+
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&sdc2_on>;
+	pinctrl-1 = <&sdc2_off>;
+	vmmc-supply = <&vreg_l9c>;
+	vqmmc-supply = <&vreg_l6c>;
+
+	cd-gpios = <&tlmm 69 GPIO_ACTIVE_LOW>;
+};
+
+&ufs_mem_hc {
+	status = "okay";
+
+	vcc-supply = <&vreg_l19a>;
+	vcc-max-microamp = <600000>;
+	vccq2-supply = <&vreg_l12a>;
+	vccq2-max-microamp = <600000>;
+};
+
+&ufs_mem_phy {
+	status = "okay";
+
+	vdda-phy-supply = <&vreg_l4a>;
+	vdda-pll-supply = <&vreg_l3c>;
+	vdda-phy-max-microamp = <62900>;
+	vdda-pll-max-microamp = <18300>;
+};
+
+&usb_1 {
+	status = "okay";
+};
+
+&usb_1_dwc3 {
+	dr_mode = "peripheral";
+};
+
+&usb_1_hsphy {
+	status = "okay";
+	vdd-supply = <&vreg_l4a>;
+	vdda-pll-supply = <&vreg_l11a>;
+	vdda-phy-dpdm-supply = <&vreg_l17a>;
+};
+
+&usb_1_qmpphy {
+	status = "okay";
+	vdda-phy-supply = <&vreg_l4a>;
+	vdda-pll-supply = <&vreg_l3c>;
+};
+
+&lpasscc {
+	status = "disabled";
+};
+
+&lpass_cpu {
+	status = "disabled";
+};
+
+&lpass_hm {
+	status = "disabled";
+};
