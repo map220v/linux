@@ -518,6 +518,16 @@ config DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01
 	select DRM_MIPI_DSI
 	select VIDEOMODE_HELPERS
 
+config DRM_PANEL_SAMSUNG_S6E3FC3_AMS667YM01
+	tristate "Samsung AMS667YM01 panel with S6E3FC3 DSI cmd mode controller"
+	depends on OF
+	depends on DRM_MIPI_DSI
+	depends on BACKLIGHT_CLASS_DEVICE
+	select VIDEOMODE_HELPERS
+	help
+	  Say Y or M here if you want to enable support for the Samsung AMOLED
+	  (2400x1080@90Hz) command mode panel found in the Samsung Galaxy A72 smartphones.
+
 config DRM_PANEL_SAMSUNG_S6E8AA0
 	tristate "Samsung S6E8AA0 DSI video mode panel"
 	depends on OF

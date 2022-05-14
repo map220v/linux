@@ -28,11 +28,6 @@
 		#size-cells = <2>;
 		ranges;
 
-		framebuffer_region@9c000000 {
-			reg = <0x0 0x9c000000 0x0 0x01800000>;
-			no-map;
-		};
-
 		mpss_mem: memory@86000000 {
 			reg = <0x0 0x8b000000 0x0 0x8900000>;
 			no-map;
@@ -82,25 +77,6 @@
 		#address-cells = <2>;
 		#size-cells = <2>;
 		ranges;
-		framebuffer@9c000000 {
-			compatible = "simple-framebuffer";
-			reg = <0x0 0x9c000000 0x0 (1080 * 2400 * 4)>;
-			width = <1080>;
-			height = <2400>;
-			stride = <(1080 * 4)>;
-			format = "a8r8g8b8";
-			/*
-			 * That's a lot of clocks, but it's necessary due
-			 * to unused clk cleanup & no panel driver yet..
-			 */
-			clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
-				 <&dispcc DISP_CC_MDSS_BYTE0_CLK>,
-				 <&dispcc DISP_CC_MDSS_BYTE0_INTF_CLK>,
-				 <&dispcc DISP_CC_MDSS_MDP_CLK>,
-				 <&dispcc DISP_CC_MDSS_PCLK0_CLK>,
-				 <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
-			power-domains = <&dispcc MDSS_GDSC>;
-		};
 	};
 };
 
@@ -189,6 +165,47 @@
 			regulator-max-microvolt = <3312000>;
 		};
 	};
+};
+
+&dsi0 {
+	status = "okay";
+
+	panel@0 {
+		compatible = "samsung,s6e3fc3-ams667ym01";
+		reg = <0>;
+
+		reset-gpios = <&tlmm 8 GPIO_ACTIVE_LOW>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&panel_reset_pins &panel_te_pin>;
+
+		port {
+			panel_in: endpoint {
+				remote-endpoint = <&dsi0_out>;
+			};
+		};
+	};
+};
+
+&dsi0_out {
+	remote-endpoint = <&panel_in>;
+	data-lanes = <0 1 2 3>;
+};
+
+&dsi_phy {
+	status = "okay";
+};
+
+&mdp {
+	status = "okay";
+};
+
+&mdss {
+	status = "okay";
+};
+
+&gpu {
+	status = "okay";
 };
 
 &tlmm {
@@ -303,6 +320,24 @@
 			pins = "gpio69";
 			bias-pull-up;
 			drive-strength = <2>;
+		};
+	};
+
+	panel_reset_pins: panel-reset {
+		mux {
+			pins = "gpio8";
+			function = "gpio";
+			drive-strength = <8>;
+			bias-disable = <0>;
+		};
+	};
+
+	panel_te_pin: panel-te {
+		mux {
+			pins = "gpio10";
+			function = "mdp_vsync";
+			drive-strength = <2>;
+			bias-disable;
 		};
 	};
 };
