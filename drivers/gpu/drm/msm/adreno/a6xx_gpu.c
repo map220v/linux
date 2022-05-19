@@ -1960,8 +1960,8 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
 	 * For now only clamp to idle freq for devices where this is known not
 	 * to cause power supply issues:
 	 */
-	/*if (info && (info->revn == 618))
-		gpu->clamp_to_idle = true;*/
+	if (info && (info->revn == 618))
+		gpu->clamp_to_idle = true;
 
 	a6xx_llc_slices_init(pdev, a6xx_gpu);
 
