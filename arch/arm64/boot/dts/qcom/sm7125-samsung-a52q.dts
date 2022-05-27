@@ -90,9 +90,50 @@
 		compatible = "qcom,pm6150-rpmh-regulators";
 		qcom,pmic-id = "a";
 
+		vreg_s1a: smps1 {
+			regulator-min-microvolt = <1128000>;
+			regulator-max-microvolt = <1128000>;
+		};
+
+		vreg_s4a: smps4 {
+			regulator-min-microvolt = <824000>;
+			regulator-max-microvolt = <1120000>;
+		};
+
+		vreg_s5a: smps5 {
+			regulator-min-microvolt = <1744000>;
+			regulator-max-microvolt = <2040000>;
+		};
+
+		vreg_l1a: ldo1 {
+			regulator-min-microvolt = <1178000>;
+			regulator-max-microvolt = <1256000>;
+		};
+
+		vreg_l2a: ldo2 {
+			regulator-min-microvolt = <944000>;
+			regulator-max-microvolt = <1056000>;
+		};
+
+		vreg_l3a: ldo3 {
+			regulator-min-microvolt = <968000>;
+			regulator-max-microvolt = <1064000>;
+		};
+
 		vreg_l4a: ldo4 {
 			regulator-min-microvolt = <824000>;
 			regulator-max-microvolt = <928000>;
+		};
+
+		/*vreg_l5a: ldo5 {
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+			regulator-always-on;
+		};*/
+
+		vreg_l6a: ldo6 {
+			regulator-min-microvolt = <568000>;
+			regulator-max-microvolt = <648000>;
 		};
 
 		vreg_l9a: ldo9 {
@@ -115,13 +156,38 @@
 			regulator-max-microvolt = <1950000>;
 		};
 
+		vreg_l13a: ldo13 {
+			regulator-min-microvolt = <1696000>;
+			regulator-max-microvolt = <1904000>;
+		};
+
+		vreg_l14a: ldo14 {
+			regulator-min-microvolt = <1728000>;
+			regulator-max-microvolt = <1832000>;
+		};
+
+		vreg_l15a: ldo15 {
+			regulator-min-microvolt = <1696000>;
+			regulator-max-microvolt = <1904000>;
+		};
+
+		vreg_l16a: ldo16 {
+			regulator-min-microvolt = <2496000>;
+			regulator-max-microvolt = <3304000>;
+		};
+
 		vreg_l17a: ldo17 {
 			regulator-min-microvolt = <2920000>;
 			regulator-max-microvolt = <3232000>;
 		};
 
+		vreg_l18a: ldo18 {
+			regulator-min-microvolt = <2496000>;
+			regulator-max-microvolt = <3304000>;
+		};
+
 		vreg_l19a: ldo19 {
-			regulator-min-microvolt = <2696000>;
+			regulator-min-microvolt = <2960000>;
 			regulator-max-microvolt = <2960000>;
 		};
 	};
@@ -129,6 +195,11 @@
 	pm6150l-rpmh-regulators {
 		compatible = "qcom,pm6150l-rpmh-regulators";
 		qcom,pmic-id = "c";
+
+		vreg_s8c: smps8 {
+			regulator-min-microvolt = <1120000>;
+			regulator-max-microvolt = <1408000>;
+		};
 
 		vreg_l1c: ldo1 {
 			regulator-min-microvolt = <1800000>;
@@ -145,6 +216,16 @@
 			regulator-max-microvolt = <1304000>;
 		};
 
+		vreg_l4c: ldo4 {
+			regulator-min-microvolt = <1648000>;
+			regulator-max-microvolt = <3304000>;
+		};
+
+		vreg_l5c: ldo5 {
+			regulator-min-microvolt = <1648000>;
+			regulator-max-microvolt = <3304000>;
+		};
+
 		vreg_l6c: ldo6 {
 			regulator-min-microvolt = <1800000>;
 			regulator-max-microvolt = <2950000>;
@@ -153,6 +234,11 @@
 		vreg_l7c: ldo7 {
 			regulator-min-microvolt = <3000000>;
 			regulator-max-microvolt = <3000000>;
+		};
+
+		vreg_l8c: ldo8 {
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
 		};
 
 		vreg_l9c: ldo9 {
@@ -168,6 +254,12 @@
 		vreg_l11c: ldo11 {
 			regulator-min-microvolt = <3000000>;
 			regulator-max-microvolt = <3312000>;
+		};
+
+		vreg_bob: bob {
+			regulator-min-microvolt = <3008000>;
+			regulator-max-microvolt = <3960000>;
+			regulator-initial-mode = <RPMH_REGULATOR_MODE_AUTO>;
 		};
 	};
 };
