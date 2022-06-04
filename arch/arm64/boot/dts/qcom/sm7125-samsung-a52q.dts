@@ -28,12 +28,12 @@
 		#size-cells = <2>;
 		ranges;
 		
-		mpss_mem: memory@86000000 {
+		mpss_mem: memory@8b000000 {
 			reg = <0x0 0x8b000000 0x0 0x8900000>;
 			no-map;
 		};
 
-		venus_mem: memory@8ee00000 {
+		venus_mem: memory@98400000 {
 			reg = <0 0x98400000 0 0x500000>;
 			no-map;
 		};
@@ -53,7 +53,7 @@
 			no-map;
 		};
 
-		ramoops@B4600000 {
+		ramoops@b4600000 {
 			compatible = "ramoops";
 			reg = <0x0 0xb4600000 0x0 0x100000>;
 			record-size = <0x40000>;
