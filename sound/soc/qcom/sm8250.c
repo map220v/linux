@@ -133,7 +133,37 @@ static int sm8250_snd_hw_params(struct snd_pcm_substream *substream,
 	struct snd_soc_dai *cpu_dai = asoc_rtd_to_cpu(rtd, 0);
 	struct sm8250_snd_data *pdata = snd_soc_card_get_drvdata(rtd->card);
 	struct sdw_stream_runtime *sruntime;
-	int i;
+	int i, j;
+	int ret;
+
+	for_each_rtd_codec_dais(rtd, j, codec_dai) {
+		if (!codec_dai->component->name_prefix)
+			break;
+
+		if (!strcmp(codec_dai->component->name_prefix, "Left")) {
+			ret = snd_soc_dai_set_tdm_slot(
+					codec_dai, 0x01,
+					0x03, 8,
+					16);
+			if (ret < 0) {
+				dev_err(rtd->dev,
+					"DEV0 TDM slot err:%d\n", ret);
+				return ret;
+			}
+		}
+
+		if (!strcmp(codec_dai->component->name_prefix, "Right")) {
+			ret = snd_soc_dai_set_tdm_slot(
+					codec_dai, 0x02,
+					0x03, 8,
+					16);
+			if (ret < 0) {
+				dev_err(rtd->dev,
+					"DEV1 TDM slot err:%d\n", ret);
+				return ret;
+			}
+		}
+	}
 
 	switch (cpu_dai->id) {
 	case WSA_CODEC_DMA_RX_0:
