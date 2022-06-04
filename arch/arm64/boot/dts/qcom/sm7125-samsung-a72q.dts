@@ -10,6 +10,7 @@
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
 #include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
+#include <dt-bindings/sound/qcom,q6asm.h>
 #include "sm7125.dtsi"
 #include "pm6150.dtsi"
 #include "pm6150l.dtsi"
@@ -86,6 +87,7 @@
 		bluetooth0 = &bluetooth;
 		hsuart0 = &uart3;
 		wifi0 = &wifi;
+		i2c18 = &i2c_18;
 	};
 
 	chosen {
@@ -451,6 +453,29 @@
 			bias-disable;
 		};
 	};
+
+	tas25xx_gpio_default: tas25xx_gpio_default {
+		pinmux {
+			pins = "gpio88", "gpio89", "gpio90", "gpio94";
+			function = "gpio";
+		};
+		pinconfig {
+			pins = "gpio88", "gpio89", "gpio90", "gpio94";
+			bias-disable;
+		};
+	};
+
+	fm_lna_default: fm_lna_default {
+		pinmux {
+			pins = "gpio84";
+			function = "gpio";
+		};
+		pinconfig {
+			pins = "gpio84";
+			bias-disable;
+			output-low;
+		};
+	};
 };
 
 &ipa {
@@ -498,6 +523,92 @@
 &remoteproc_adsp {
 	status = "okay";
 	firmware-name = "qcom/sm7125/a72q/adsp.mdt";
+};
+
+&soc {
+	i2c_18: i2c@18 { /* SW I2C */
+		cell-index = <18>;
+		compatible = "i2c-gpio";
+		gpios = <&tlmm 88 0 /* sda */
+				 &tlmm 89 0 /* scl */
+		>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&tas25xx_gpio_default &fm_lna_default>;
+		#i2c-gpio,delay-us = <2>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		tas2562_r: codec@4c {
+			compatible = "ti,tas2562";
+			reg = <0x4c>;
+			#sound-dai-cells = <1>;
+			interrupt-parent = <&tlmm>;
+			interrupts = <90 0>;
+			shutdown-gpios = <&tlmm 94 0>;
+			sound-name-prefix = "Right";
+			ti,vmon-slot-no = <1>;
+			ti,imon-slot-no = <0>;
+		};
+
+		tas2562_l: codec@4d {
+			compatible = "ti,tas2562";
+			reg = <0x4d>;
+			#sound-dai-cells = <1>;
+			interrupt-parent = <&tlmm>;
+			interrupts = <90 0>;
+			shutdown-gpios = <&tlmm 94 0>;
+			sound-name-prefix = "Left";
+			ti,vmon-slot-no = <1>;
+			ti,imon-slot-no = <0>;
+		};
+	};
+};
+
+&sound {
+	compatible = "qcom,sm8250-sndcard";
+	pinctrl-0 = <&i2s1_active>;
+	pinctrl-names = "default";
+	model = "Galaxy A72";
+
+	mm1-dai-link {
+		link-name = "MultiMedia1";
+		cpu {
+			sound-dai = <&q6asmdai MSM_FRONTEND_DAI_MULTIMEDIA1>;
+		};
+	};
+
+	i2s-dai-link {
+		link-name = "I2S Playback";
+		cpu {
+			sound-dai = <&q6afedai QUINARY_MI2S_RX>;
+		};
+
+		platform {
+			sound-dai = <&q6routing>;
+		};
+
+		codec {
+			sound-dai = <&tas2562_r 0>, <&tas2562_l 0>;
+		};
+	};
+};
+
+&q6afedai {
+	qi2s@127 {
+		reg = <QUINARY_MI2S_RX>;
+		qcom,sd-lines = <0>;
+	};
+
+	qi2s@128 {
+		reg = <QUINARY_MI2S_TX>;
+		qcom,sd-lines = <1>;
+	};
+};
+
+&q6asmdai {
+	dai@0 {
+		reg = <0>;
+	};
 };
 
 &remoteproc_cdsp {
