@@ -33,6 +33,16 @@
 			no-map;
 		};
 
+		adsp_mem: memory@93c00000 {
+			reg = <0x0 0x93c00000 0x0 0x3e00000>;
+			no-map;
+		};
+
+		cdsp_mem: memory@98900000 {
+			reg = <0x0 0x98900000 0x0 0x1e00000>;
+			no-map;
+		};
+
 		venus_mem: memory@98400000 {
 			reg = <0 0x98400000 0 0x500000>;
 			no-map;
@@ -483,6 +493,16 @@
 &remoteproc_mpss {
 	status = "okay";
 	firmware-name = "qcom/sm7125/a52q/modem.mdt";
+};
+
+&remoteproc_adsp {
+	status = "okay";
+	firmware-name = "qcom/sm7125/a52q/adsp.mdt";
+};
+
+&remoteproc_cdsp {
+	status = "okay";
+	firmware-name = "qcom/sm7125/a52q/cdsp.mdt";
 };
 
 &qupv3_id_0 {
