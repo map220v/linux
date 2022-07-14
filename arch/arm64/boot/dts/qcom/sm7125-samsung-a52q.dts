@@ -727,6 +727,10 @@
 	firmware-name = "qcom/sm7125/a52q/cdsp.mdt";
 };
 
+&venus {
+	firmware-name = "qcom/sm7125/a52q/venus.mdt";
+};
+
 &qupv3_id_0 {
 	status = "okay";
 };
