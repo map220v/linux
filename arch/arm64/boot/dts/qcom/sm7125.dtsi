@@ -784,6 +784,10 @@
 	reg-names = "mdp", "regdma", "vbif", "vbif_nrt";
 };
 
+&venus {
+	compatible = "qcom,sm7125-venus";
+};
+
 &i2c7 {
 	dmas = <&gpi_dma1 0 1 QCOM_GPI_I2C>,
 			<&gpi_dma1 1 1 QCOM_GPI_I2C>;
