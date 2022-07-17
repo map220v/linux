@@ -772,6 +772,11 @@
 	sm5714-charger@49 {
 		compatible = "siliconmitus,sm5714-charger";
 		reg = <0x49>;
+
+		siliconmitus,enable-autostop;
+		siliconmitus,input-current-limit = <1300>;
+		siliconmitus,charging-current = <1300>;
+		siliconmitus,topoff-current = <250>;
 	};
 
 	sm5714-fg@71 {
