@@ -857,15 +857,3 @@
 	vdda-phy-supply = <&vreg_l4a>;
 	vdda-pll-supply = <&vreg_l3c>;
 };
-
-&lpasscc {
-	status = "disabled";
-};
-
-&lpass_cpu {
-	status = "disabled";
-};
-
-&lpass_hm {
-	status = "disabled";
-};

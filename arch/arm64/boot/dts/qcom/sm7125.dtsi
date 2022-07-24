@@ -776,6 +776,18 @@
 	};
 };
 
+&lpasscc {
+	status = "disabled";
+};
+
+&lpass_cpu {
+	status = "disabled";
+};
+
+&lpass_hm {
+	status = "disabled";
+};
+
 &mdp {
 	reg = <0 0x0ae01000 0 0x8f000>,
 		  <0 0x0aeac000 0 0x214>,
