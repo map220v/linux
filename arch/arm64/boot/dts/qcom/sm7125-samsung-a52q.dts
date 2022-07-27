@@ -22,6 +22,7 @@
 / {
 	model = "Samsung Galaxy A52";
 	compatible = "samsung,a52q", "qcom,sm7125";
+	chassis-type = "handset";
 	qcom,msm-id = <443 0x0>;
 	qcom,board-id = <0x22 0x6>;
 
