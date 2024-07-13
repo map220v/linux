@@ -159,8 +159,8 @@
 		#sound-dai-cells = <1>;
 	};
 
-	swr2: soundwire-controller@3230000 {
-		reg = <0 0x3230000 0 0x2000>;
+	swr2: soundwire-controller@62630000 {
+		reg = <0 0x62630000 0 0x2000>;
 		compatible = "qcom,soundwire-v1.5.1";
 		status = "disabled";
 		interrupts = <GIC_SPI 296 IRQ_TYPE_LEVEL_HIGH>;
@@ -187,7 +187,6 @@
 		#size-cells = <0>;
 	};
 
-	//TODO: Check if protected by TZ
 	lpass_aoncc: clock-controller@62780000 {
 		compatible = "qcom,sm8250-lpass-aoncc";
 		reg = <0 0x62780000 0 0x40000>;
@@ -198,7 +197,6 @@
 		clock-names = "core", "audio", "bus";
 	};
 
-	//TODO: Check if gpio's 15-28(reserved for sensor's) can be accessed
 	lpass_tlmm: pinctrl@627c0000 {
 		compatible = "qcom,sm7125-lpass-lpi-pinctrl", "qcom,sc7280-lpass-lpi-pinctrl";
 		reg = <0 0x627c0000 0x0 0x20000>,
