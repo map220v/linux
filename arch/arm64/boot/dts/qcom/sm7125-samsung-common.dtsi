@@ -119,6 +119,12 @@
 			pmsg-size = <0x40000>;
 		};
 	};
+
+	vibrator {
+		compatible = "gpio-vibrator";
+		enable-gpios = <&tlmm 57 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+	};
 };
 
 &apps_rsc {
