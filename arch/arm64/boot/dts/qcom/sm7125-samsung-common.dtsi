@@ -32,16 +32,27 @@
 
 	gpio-keys {
 		compatible = "gpio-keys";
-		label = "Volume key";
 
 		pinctrl-names = "default";
-		pinctrl-0 = <&key_vol_up_default>;
+		pinctrl-0 = <&key_vol_up_default>, <&hall_sensor_default>;
 
 		vol-up {
 			label = "Volume up";
-			linux,code = <KEY_VOLUMEUP>;
 			gpios = <&pm6150l_gpios 8 GPIO_ACTIVE_LOW>;
+			linux,code = <KEY_VOLUMEUP>;
 			debounce-interval = <15>;
+			linux,can-disable;
+			wakeup-source;
+		};
+
+		event-hall-sensor {
+			label = "Hall Effect Sensor";
+			gpios = <&pm6150_gpios 10 GPIO_ACTIVE_LOW>;
+			linux,input-type = <EV_SW>;
+			linux,code = <SW_LID>;
+			debounce-interval = <15>;
+			linux,can-disable;
+			wakeup-source;
 		};
 	};
 
@@ -493,11 +504,21 @@
 };
 
 &pm6150l_gpios {
-	key_vol_up_default: key_vol_up_default {
+	key_vol_up_default: key-vol-up-default-state {
 		pins = "gpio8";
 		function = "normal";
 		input-enable;
 		bias-pull-up;
+		power-source = <0>;
+	};
+};
+
+&pm6150_gpios {
+	hall_sensor_default: hall-sensor-default-state {
+		pins = "gpio10";
+		function = "normal";
+		output-disable;
+		bias-disable;
 		power-source = <0>;
 	};
 };
