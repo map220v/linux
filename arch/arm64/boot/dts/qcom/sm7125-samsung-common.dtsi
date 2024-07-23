@@ -523,6 +523,13 @@
 	};
 };
 
+&pm6150_pon {
+	/* LinuxLoader fastboot implementation has most of it's commands removed
+	 * by Samsung, making it useless. So reboot to Odin download mode instead.
+	 */
+	mode-bootloader = <0x15>;
+};
+
 &pm6150_resin {
 	linux,code = <KEY_VOLUMEDOWN>;
 	status = "okay";
